@@ -1,11 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-// THIS IS WHAT WAS MISSING. It tells TypeScript this component accepts a function.
 interface HeaderProps {
   onCheckEligibility?: () => void;
 }
@@ -26,17 +25,17 @@ export default function Header({ onCheckEligibility }: HeaderProps) {
   return (
     <header className="sticky top-0 z-30 bg-white shadow-md">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-        {/* Logo */}
+        {/* Premium Circular Logo */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex items-center gap-3"
+          className="flex items-center"
         >
           <img
             src="/logo.jpeg"
             alt="Cashlytic Capital Logo"
-            className="h-14 w-14 rounded-full object-cover border border-gray-200 shadow-sm"
+            className="h-16 w-16 rounded-full object-cover border-2 border-accent/30 shadow-md p-0.5 bg-white"
           />
         </motion.div>
 
@@ -44,8 +43,8 @@ export default function Header({ onCheckEligibility }: HeaderProps) {
         <div className="hidden md:flex items-center gap-8">
           <div className="relative">
             <button
-              onClick={() => setServicesOpen(!servicesOpen)}
-              className="flex items-center gap-1 text-foreground hover:text-accent font-medium transition-colors"
+              onMouseEnter={() => setServicesOpen(true)}
+              className="flex items-center gap-1 text-primary hover:text-accent font-semibold transition-colors py-2"
             >
               Our Services
               <motion.div animate={{ rotate: servicesOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
@@ -53,84 +52,97 @@ export default function Header({ onCheckEligibility }: HeaderProps) {
               </motion.div>
             </button>
 
-            {servicesOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-border"
-              >
-                {services.map((service, index) => (
-                  <a
-                    key={index}
-                    href={`#${service.id}`}
-                    onClick={() => setServicesOpen(false)}
-                    className="block w-full text-left px-4 py-2 text-foreground hover:bg-muted hover:text-accent transition-colors first:rounded-t-lg last:rounded-b-lg"
-                  >
-                    {service.label}
-                  </a>
-                ))}
-              </motion.div>
-            )}
+            <AnimatePresence>
+              {servicesOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  onMouseLeave={() => setServicesOpen(false)}
+                  className="absolute top-full left-0 mt-1 w-56 bg-white rounded-xl shadow-xl border border-border overflow-hidden"
+                >
+                  {services.map((service, index) => (
+                    <a
+                      key={index}
+                      href={`#${service.id}`}
+                      onClick={() => setServicesOpen(false)}
+                      className="block px-5 py-3 text-sm text-foreground hover:bg-accent/10 hover:text-accent transition-all font-medium"
+                    >
+                      {service.label}
+                    </a>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
-          <a href="#about" className="text-foreground hover:text-accent font-medium transition-colors">
+          <a href="#about" className="text-primary hover:text-accent font-semibold transition-colors">
             About Us
           </a>
 
           <Button
             onClick={onCheckEligibility}
-            className="bg-accent hover:bg-accent/90 text-primary font-bold px-6 py-2 rounded-full cursor-pointer"
+            className="bg-accent hover:bg-accent/90 text-primary font-bold px-7 py-2.5 rounded-full shadow-lg transition-transform active:scale-95"
           >
             Check Eligibility
           </Button>
         </div>
 
-        {/* Mobile Hamburger Icon */}
-        <div className="md:hidden flex items-center">
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="text-primary">
+        {/* Mobile Toggle */}
+        <div className="md:hidden">
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
+            className="text-primary p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          >
             {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </nav>
 
       {/* Mobile Menu Panel */}
-      {mobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          className="md:hidden bg-white border-t border-border px-4 py-4 flex flex-col gap-4 shadow-lg absolute w-full left-0"
-        >
-          <div className="font-bold text-primary mb-2 border-b pb-2">Our Services</div>
-          {services.map((service) => (
-            <a
-              key={service.id}
-              href={`#${service.id}`}
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-foreground hover:text-accent ml-4"
-            >
-              {service.label}
-            </a>
-          ))}
-          <a
-            href="#about"
-            onClick={() => setMobileMenuOpen(false)}
-            className="font-bold text-primary border-t pt-2 mt-2"
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-white border-t border-border shadow-2xl overflow-hidden"
           >
-            About Us
-          </a>
-          
-          <Button 
-            onClick={() => {
-              setMobileMenuOpen(false);
-              if (onCheckEligibility) onCheckEligibility();
-            }} 
-            className="bg-accent hover:bg-accent/90 text-primary font-bold w-full mt-4 cursor-pointer"
-          >
-            Check Eligibility
-          </Button>
-        </motion.div>
-      )}
+            <div className="px-6 py-6 flex flex-col gap-5">
+              <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">Main Services</div>
+              <div className="grid grid-cols-1 gap-3">
+                {services.map((service) => (
+                  <a
+                    key={service.id}
+                    href={`#${service.id}`}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-lg font-semibold text-primary hover:text-accent py-1"
+                  >
+                    {service.label}
+                  </a>
+                ))}
+              </div>
+              <a
+                href="#about"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-lg font-semibold text-primary border-t pt-4 mt-2"
+              >
+                About Us
+              </a>
+              
+              <Button 
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  if (onCheckEligibility) onCheckEligibility();
+                }} 
+                className="bg-accent hover:bg-accent/90 text-primary font-bold w-full py-6 text-lg rounded-xl mt-4"
+              >
+                Check Eligibility
+              </Button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

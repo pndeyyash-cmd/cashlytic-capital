@@ -27,7 +27,7 @@ export default function HeroSection({ onApply }: HeroSectionProps) {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-4xl md:text-5xl font-bold text-primary mb-4 leading-tight"
             >
-              Shahi Soch,
+              Sahi Soch,
               <br />
               <span className="text-accent">Sunehra Bhavishya</span>
             </motion.h2>
