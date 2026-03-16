@@ -13,7 +13,6 @@ export default function Header({ onCheckEligibility }: HeaderProps) {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // UPDATED: Home Loan simplified, LAP full form added
   const services = [
     { label: 'Home Loan', id: 'home-loan' },
     { label: 'Business Loan', id: 'business-loan' },
@@ -23,28 +22,28 @@ export default function Header({ onCheckEligibility }: HeaderProps) {
     { label: 'LAP (Loan Against Property)', id: 'lap-loan' }
   ];
 
-  // FIX: Accurate scrolling that accounts for the sticky header height
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
     setServicesOpen(false);
     
-    const element = document.getElementById(id);
-    if (element) {
-      const headerOffset = 90; // The height of your sticky header
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        const headerOffset = 100;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 150);
   };
 
   return (
     <header className="sticky top-0 z-30 bg-white shadow-md">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-        {/* Premium Circular Logo */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -59,7 +58,6 @@ export default function Header({ onCheckEligibility }: HeaderProps) {
           />
         </motion.div>
 
-        {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
           <div className="relative">
             <button
@@ -110,7 +108,6 @@ export default function Header({ onCheckEligibility }: HeaderProps) {
           </Button>
         </div>
 
-        {/* Mobile Toggle */}
         <div className="md:hidden">
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
@@ -121,7 +118,6 @@ export default function Header({ onCheckEligibility }: HeaderProps) {
         </div>
       </nav>
 
-      {/* Mobile Menu Panel */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -137,7 +133,7 @@ export default function Header({ onCheckEligibility }: HeaderProps) {
                   <button
                     key={service.id}
                     onClick={() => scrollToSection(service.id)}
-                    className="text-lg font-semibold text-primary hover:text-accent py-1 text-left"
+                    className="text-lg font-semibold text-primary hover:text-accent py-1 text-left active:bg-accent/10"
                   >
                     {service.label}
                   </button>
@@ -153,7 +149,7 @@ export default function Header({ onCheckEligibility }: HeaderProps) {
               <Button 
                 onClick={() => {
                   setMobileMenuOpen(false);
-                  if (onCheckEligibility) onCheckEligibility();
+                  if (onCheckEligibility) onCheckEligibility(); // FIXED: Removed the (true) argument
                 }} 
                 className="bg-accent hover:bg-accent/90 text-primary font-bold w-full py-6 text-lg rounded-xl mt-4"
               >
