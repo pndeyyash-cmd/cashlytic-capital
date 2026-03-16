@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, MapPin, Mail, Facebook, Instagram, ExternalLink } from 'lucide-react';
+import { Phone, MapPin, Facebook, Instagram, ExternalLink } from 'lucide-react';
 import PolicyModal from './policy-modal';
 
 export default function Footer() {
@@ -109,14 +109,6 @@ export default function Footer() {
               </div>
 
               {/* Primary Phone */}
-              <div className="flex gap-3 items-center">
-                <Phone size={18} className="text-accent flex-shrink-0" />
-                <a href="tel:+917304661471" className="text-white/70 hover:text-accent transition-colors">
-                  +91 73046 61471
-                </a>
-              </div>
-
-              {/* Secondary Phone */}
               <div className="flex gap-3 items-center">
                 <Phone size={18} className="text-accent flex-shrink-0" />
                 <a href="tel:+917304301471" className="text-white/70 hover:text-accent transition-colors">

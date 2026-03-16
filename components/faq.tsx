@@ -20,7 +20,7 @@ const faqItems: FAQItem[] = [
   },
   {
     question: 'Is there any upfront fee?',
-    answer: 'No, we do not charge any fees before sanction. All charges are transparent and deducted only after the loan is approved and sanctioned by the bank.'
+    answer: 'No, we do not charge any processing fees before sanction. All charges are transparent and deducted only after the loan is approved and sanctioned by the bank. Note: Standard Login Fees apply.'
   }
 ];
 
@@ -96,14 +96,14 @@ export default function FAQ() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-12 text-center bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-8 border border-accent/20"
         >
-          <p className="text-foreground mb-4">
+          <p className="text-foreground mb-4 font-medium">
             Didn't find your answer?
           </p>
           <a
-            href="https://wa.me/917304661471?text=Hi,%20I%20have%20a%20question%20about%20loans"
+            href="https://wa.me/917304301471?text=Hi,%20I%20have%20a%20question%20about%20loans"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block bg-accent hover:bg-accent/90 text-primary font-bold px-8 py-3 rounded-full transition-colors"
+            className="inline-block bg-accent hover:bg-accent/90 text-primary font-bold px-8 py-3 rounded-full transition-all shadow-md active:scale-95"
           >
             Get in Touch via WhatsApp
           </a>
