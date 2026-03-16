@@ -20,6 +20,7 @@ interface QuickApplyFormProps {
 
 export default function QuickApplyForm({ onClose }: QuickApplyFormProps) {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     whatsapp: '',
@@ -38,43 +39,44 @@ export default function QuickApplyForm({ onClose }: QuickApplyFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     
-    const formDataToSend = new FormData();
-    formDataToSend.append('name', formData.name);
-    formDataToSend.append('whatsapp', formData.whatsapp);
-    formDataToSend.append('email', formData.email);
-    formDataToSend.append('loanType', formData.loanType);
-    formDataToSend.append('city', formData.city);
+    // YOUR FORM ID INSTALLED HERE
+    const formID = 'xzdjjdvn'; 
 
     try {
-      // THE FIX: Adding the Accept header tells Formspree to return JSON instead of a redirect
-      const response = await fetch('https://formspree.io/f/xzdjjdvn', {
+      const response = await fetch(`https://formspree.io/f/${formID}`, {
         method: 'POST',
-        body: formDataToSend,
+        body: JSON.stringify(formData),
         headers: {
+          'Content-Type': 'application/json',
           'Accept': 'application/json'
-        }
+        },
       });
 
       if (response.ok) {
         setSubmitted(true);
         // Reset form data after successful submission
         setFormData({
-            name: '',
-            whatsapp: '',
-            email: '',
-            loanType: '',
-            city: '',
+          name: '',
+          whatsapp: '',
+          email: '',
+          loanType: '',
+          city: '',
         });
         
         setTimeout(() => {
           onClose();
           setSubmitted(false);
         }, 3000);
+      } else {
+        alert("Submission failed. Please try again.");
       }
     } catch (error) {
       console.error('Form submission error:', error);
-      alert("Submission failed. Please check your internet or disable ad-blockers for this site.");
+      alert("Submission failed. Please check your internet or disable ad-blockers (like Brave Shields) for this site.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -248,10 +250,10 @@ export default function QuickApplyForm({ onClose }: QuickApplyFormProps) {
           >
             <Button
               type="submit"
-              disabled={!formData.name || !formData.whatsapp || !formData.email || !formData.loanType || !formData.city}
-              className="w-full bg-accent hover:bg-accent/90 text-primary font-bold py-3 rounded-lg cursor-pointer"
+              disabled={loading || !formData.name || !formData.whatsapp || !formData.email || !formData.loanType || !formData.city}
+              className="w-full bg-accent hover:bg-accent/90 text-primary font-bold py-3 rounded-lg cursor-pointer transition-transform active:scale-95"
             >
-              Get Best Quote
+              {loading ? "Sending..." : "Get Best Quote"}
             </Button>
           </motion.div>
 
