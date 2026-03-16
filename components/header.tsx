@@ -13,14 +13,33 @@ export default function Header({ onCheckEligibility }: HeaderProps) {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // UPDATED: Home Loan simplified, LAP full form added
   const services = [
-    { label: 'Home Loan & LAP', id: 'home-loan' },
+    { label: 'Home Loan', id: 'home-loan' },
     { label: 'Business Loan', id: 'business-loan' },
     { label: 'Personal Loan', id: 'personal-loan' },
     { label: 'Car Loan', id: 'car-loan' },
     { label: 'Construction Loan', id: 'construction-loan' },
-    { label: 'LAP', id: 'lap-loan' }
+    { label: 'LAP (Loan Against Property)', id: 'lap-loan' }
   ];
+
+  // FIX: Accurate scrolling that accounts for the sticky header height
+  const scrollToSection = (id: string) => {
+    setMobileMenuOpen(false);
+    setServicesOpen(false);
+    
+    const element = document.getElementById(id);
+    if (element) {
+      const headerOffset = 90; // The height of your sticky header
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
     <header className="sticky top-0 z-30 bg-white shadow-md">
@@ -35,7 +54,8 @@ export default function Header({ onCheckEligibility }: HeaderProps) {
           <img
             src="/logo.jpeg"
             alt="Cashlytic Capital Logo"
-            className="h-16 w-16 rounded-full object-cover border-2 border-accent/30 shadow-md p-0.5 bg-white"
+            className="h-16 w-16 rounded-full object-cover border-2 border-accent/30 shadow-md p-0.5 bg-white cursor-pointer"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           />
         </motion.div>
 
@@ -59,26 +79,28 @@ export default function Header({ onCheckEligibility }: HeaderProps) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
                   onMouseLeave={() => setServicesOpen(false)}
-                  className="absolute top-full left-0 mt-1 w-56 bg-white rounded-xl shadow-xl border border-border overflow-hidden"
+                  className="absolute top-full left-0 mt-1 w-64 bg-white rounded-xl shadow-xl border border-border overflow-hidden"
                 >
                   {services.map((service, index) => (
-                    <a
+                    <button
                       key={index}
-                      href={`#${service.id}`}
-                      onClick={() => setServicesOpen(false)}
-                      className="block px-5 py-3 text-sm text-foreground hover:bg-accent/10 hover:text-accent transition-all font-medium"
+                      onClick={() => scrollToSection(service.id)}
+                      className="block w-full text-left px-5 py-3 text-sm text-foreground hover:bg-accent/10 hover:text-accent transition-all font-medium"
                     >
                       {service.label}
-                    </a>
+                    </button>
                   ))}
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          <a href="#about" className="text-primary hover:text-accent font-semibold transition-colors">
+          <button 
+            onClick={() => scrollToSection('about')}
+            className="text-primary hover:text-accent font-semibold transition-colors"
+          >
             About Us
-          </a>
+          </button>
 
           <Button
             onClick={onCheckEligibility}
@@ -112,23 +134,21 @@ export default function Header({ onCheckEligibility }: HeaderProps) {
               <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">Main Services</div>
               <div className="grid grid-cols-1 gap-3">
                 {services.map((service) => (
-                  <a
+                  <button
                     key={service.id}
-                    href={`#${service.id}`}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-lg font-semibold text-primary hover:text-accent py-1"
+                    onClick={() => scrollToSection(service.id)}
+                    className="text-lg font-semibold text-primary hover:text-accent py-1 text-left"
                   >
                     {service.label}
-                  </a>
+                  </button>
                 ))}
               </div>
-              <a
-                href="#about"
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-lg font-semibold text-primary border-t pt-4 mt-2"
+              <button
+                onClick={() => scrollToSection('about')}
+                className="text-lg font-semibold text-primary border-t pt-4 mt-2 text-left"
               >
                 About Us
-              </a>
+              </button>
               
               <Button 
                 onClick={() => {

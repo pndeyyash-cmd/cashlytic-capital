@@ -1,17 +1,18 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Home, Briefcase, Wallet, Car, Building } from 'lucide-react';
+import { Home, Briefcase, Wallet, Car, Building, Info } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 const products = [
   {
     id: 'home-loan',
     icon: Home,
-    title: 'Home Loan & LAP',
+    title: 'Home Loan', // FIXED: Removed & LAP
     hindi: 'अपने घर का सपना सच करें',
     english: 'Apne ghar ka sapna sach karein.',
     description: 'Flexible home loans with competitive rates for your dream home.',
+    loginFee: '5500', // ADDED
   },
   {
     id: 'business-loan',
@@ -20,6 +21,7 @@ const products = [
     hindi: 'अपने व्यवसाय को बढ़ाएं',
     english: 'Scale your business with ease.',
     description: 'Quick approval business loans to grow your enterprise.',
+    loginFee: 'NA', // You didn't specify, can change to actual amount later
   },
   {
     id: 'personal-loan',
@@ -28,6 +30,7 @@ const products = [
     hindi: 'तुरंत व्यक्तिगत धन प्राप्त करें',
     english: 'Quick funds for your personal needs.',
     description: 'Instant personal loans without extensive documentation.',
+    loginFee: 'NA',
   },
   {
     id: 'car-loan',
@@ -36,22 +39,25 @@ const products = [
     hindi: 'अपनी सपनों की कार चलाएं',
     english: 'Drive your dream car today.',
     description: 'Financing options for both new and pre-owned vehicles.',
+    loginFee: 'NA',
   },
   {
     id: 'construction-loan',
     icon: Building,
-    title: 'Construction Loan',
+    title: 'Construction Loan', // Use this for Purchase + Construction too
     hindi: 'आपके भविष्य की नींव',
     english: 'Build your future on a solid foundation.',
     description: 'Project-based financing for all your construction needs.',
+    loginFee: '5500', // ADDED
   },
   {
     id: 'lap-loan',
     icon: Home,
-    title: 'LAP',
+    title: 'LAP (Loan Against Property)', // FIXED: Full form added
     hindi: 'संपत्ति पर तुरंत ऋण',
     english: 'Quick loans against your property.',
     description: 'Flexible financing using your existing property as collateral.',
+    loginFee: '5900', // ADDED
   },
 ];
 
@@ -87,17 +93,24 @@ export default function ProductCards() {
                 transition={{ duration: 0.6, delay: index * 0.05 }}
                 whileHover={{ y: -8, transition: { duration: 0.2 } }}
               >
-                <Card className="h-full bg-white border border-border/50 shadow-sm hover:shadow-xl transition-all duration-300 rounded-3xl overflow-hidden">
+                <Card className="h-full bg-white border border-border/50 shadow-sm hover:shadow-xl transition-all duration-300 rounded-3xl overflow-hidden relative">
                   {/* Navy Blue Header */}
                   <div className="h-20 bg-primary" />
 
                   <CardHeader className="pt-6">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center -mt-12">
+                      <div className="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center -mt-12 border-2 border-white">
                         <Icon className="text-accent" size={24} />
                       </div>
+                      
+                      {/* Login Fee Badge */}
+                      {product.loginFee !== 'NA' && (
+                        <div className="bg-accent/10 border border-accent/20 px-3 py-1 rounded-full -mt-10">
+                           <span className="text-xs font-bold text-primary">Login Fee: ₹{product.loginFee}</span>
+                        </div>
+                      )}
                     </div>
-                    <CardTitle className="text-xl text-primary">
+                    <CardTitle className="text-xl text-primary font-bold">
                       {product.title}
                     </CardTitle>
                     <CardDescription className="text-sm text-foreground/70 mt-2">
@@ -105,13 +118,21 @@ export default function ProductCards() {
                     </CardDescription>
                   </CardHeader>
 
-                  <CardContent>
+                  <CardContent className="pb-8">
                     <p className="text-xs text-foreground/60 bg-muted/50 p-2 rounded-lg mb-3">
                       {product.hindi}
                     </p>
-                    <p className="text-sm text-foreground/70 leading-relaxed">
+                    <p className="text-sm text-foreground/70 leading-relaxed mb-4">
                       {product.description}
                     </p>
+                    
+                    {/* Non-refundable Disclaimer */}
+                    {product.loginFee !== 'NA' && (
+                      <div className="flex items-center gap-2 text-[10px] text-red-500 font-semibold bg-red-50 p-2 rounded-md">
+                        <Info size={12} />
+                        <span>Login fee is strictly non-refundable</span>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </motion.div>
