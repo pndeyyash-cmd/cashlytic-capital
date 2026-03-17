@@ -104,7 +104,7 @@ export default function Header({ onCheckEligibility }: HeaderProps) {
             onClick={onCheckEligibility}
             className="bg-accent hover:bg-accent/90 text-primary font-bold px-7 py-2.5 rounded-full shadow-lg transition-transform active:scale-95"
           >
-            Check Eligibility
+            Apply Now
           </Button>
         </div>
 
