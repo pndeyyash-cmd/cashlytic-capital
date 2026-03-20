@@ -128,66 +128,73 @@ export default function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex flex-col md:flex-row items-center justify-between gap-6"
+          className="flex flex-col md:flex-row items-end justify-between gap-8"
         >
-          {/* Copyright */}
-          <div className="text-sm text-white/60">
-            <p>© {currentYear} Cashlytic Capital. All rights reserved.</p>
-            <p className="mt-3">
-              Digital Experience by{' '}
+          {/* Copyright & VardhanFlow Sovereign Signature */}
+          <div className="text-center md:text-left space-y-4">
+            <p className="text-sm text-white/60">© {currentYear} Cashlytic Capital. All rights reserved.</p>
+
+            <div className="pt-2">
+              <p className="text-[10px] text-white/40 uppercase tracking-[0.3em] font-black mb-1">Powered By</p>
+              <p className="text-xl font-black text-white tracking-tighter uppercase italic leading-none mb-2">
+                VARDHAN<span className="text-accent">FLOW</span>
+              </p>
+              <p className="text-[10px] text-white/60 uppercase tracking-widest font-bold mb-1.5">
+                Need a SaaS Product or Custom Software?
+              </p>
               <a
-                href="https://wa.me/918874377426?text=Hi%20Yash,%20I%20saw%20Cashlytic%20Capital%20website%20and%20want%20to%20discuss%20a%20project."
+                href="https://wa.me/918874377426?text=Hi%20VardhanFlow,%20I%20saw%20the%20Cashlytic%20Capital%20platform%20and%20want%20to%20discuss%20a%20project!"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent font-semibold hover:underline inline-flex items-center gap-1"
+                className="inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-widest text-accent hover:text-white transition-all group"
               >
-                VardhanFlow
-                <ExternalLink size={14} />
+                Contact +91 8874377426
+                <ExternalLink size={12} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </a>
-            </p>
-            <p className="text-xs text-white/50 mt-2">
-              Dev Support: +91 8874377426 | pndeyyash@gmail.com
-            </p>
+            </div>
           </div>
 
           {/* Social Links */}
-          <div className="flex gap-4">
-            <motion.a
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              href="https://www.facebook.com/profile.php?id=61586976660898"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 bg-white/10 hover:bg-accent hover:text-primary rounded-full flex items-center justify-center transition-all"
-            >
-              <Facebook size={18} />
-            </motion.a>
-            <motion.a
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              href="https://www.instagram.com/cashlyticcapital/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 bg-white/10 hover:bg-accent hover:text-primary rounded-full flex items-center justify-center transition-all"
-            >
-              <Instagram size={18} />
-            </motion.a>
-          </div>
+          <div className="flex flex-col items-center md:items-end gap-6">
+            <div className="flex gap-4">
+              <motion.a
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                href="https://www.facebook.com/profile.php?id=61586976660898"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-white/10 hover:bg-accent hover:text-primary rounded-full flex items-center justify-center transition-all"
+              >
+                <Facebook size={18} />
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                href="https://www.instagram.com/cashlyticcapital/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-white/10 hover:bg-accent hover:text-primary rounded-full flex items-center justify-center transition-all"
+              >
+                <Instagram size={18} />
+              </motion.a>
+            </div>
 
-          {/* Legal Links */}
-          <div className="text-sm text-white/60 space-x-4">
-            <button
-              onClick={() => setPrivacyOpen(true)}
-              className="hover:text-accent transition-colors cursor-pointer"
-            >
-              Privacy Policy
-            </button>
-            <button
-              onClick={() => setTermsOpen(true)}
-              className="hover:text-accent transition-colors cursor-pointer"
-            >
-              Terms & Conditions
-            </button>
+            {/* Legal Links */}
+            <div className="text-sm text-white/60 space-x-4">
+              <button
+                onClick={() => setPrivacyOpen(true)}
+                className="hover:text-accent transition-colors cursor-pointer"
+              >
+                Privacy Policy
+              </button>
+              <span className="text-white/20">|</span>
+              <button
+                onClick={() => setTermsOpen(true)}
+                className="hover:text-accent transition-colors cursor-pointer"
+              >
+                Terms & Conditions
+              </button>
+            </div>
           </div>
         </motion.div>
       </div>
