@@ -27,6 +27,7 @@ export default function QuickApplyForm({ onClose }: QuickApplyFormProps) {
     email: '',
     loanType: '',
     city: '',
+    reference: '', // Added Reference Field
   });
 
   const loanTypes = [
@@ -63,6 +64,7 @@ export default function QuickApplyForm({ onClose }: QuickApplyFormProps) {
           email: '',
           loanType: '',
           city: '',
+          reference: '', // Reset Reference Field
         });
         
         setTimeout(() => {
@@ -112,7 +114,7 @@ export default function QuickApplyForm({ onClose }: QuickApplyFormProps) {
   return (
     <div className="h-full flex flex-col bg-white">
       {/* Header */}
-      <div className="flex items-center justify-between p-6 border-b border-border bg-primary text-white sticky top-0">
+      <div className="flex items-center justify-between p-6 border-b border-border bg-primary text-white sticky top-0 z-10">
         <h2 className="text-2xl font-bold">Quick Apply</h2>
         <button
           onClick={onClose}
@@ -229,11 +231,30 @@ export default function QuickApplyForm({ onClose }: QuickApplyFormProps) {
             />
           </motion.div>
 
-          {/* Info Box */}
+          {/* Reference Field */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.5 }}
+          >
+            <Label htmlFor="reference" className="text-foreground font-semibold mb-2 block">
+              Reference (if any)
+            </Label>
+            <Input
+              id="reference"
+              type="text"
+              placeholder="Enter reference (if any)"
+              value={formData.reference}
+              onChange={(e) => handleChange('reference', e.target.value)}
+              className="w-full border-border/50 focus:border-accent focus:ring-accent"
+            />
+          </motion.div>
+
+          {/* Info Box */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.6 }}
             className="bg-accent/10 border border-accent/20 rounded-lg p-4 text-sm text-foreground/70"
           >
             <p>✓ 100% Secure & Confidential</p>
@@ -245,11 +266,12 @@ export default function QuickApplyForm({ onClose }: QuickApplyFormProps) {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.6 }}
+            transition={{ duration: 0.3, delay: 0.7 }}
             className="pt-4"
           >
             <Button
               type="submit"
+              // Reference is strictly excluded from validation check so it stays optional
               disabled={loading || !formData.name || !formData.whatsapp || !formData.email || !formData.loanType || !formData.city}
               className="w-full bg-accent hover:bg-accent/90 text-primary font-bold py-3 rounded-lg cursor-pointer transition-transform active:scale-95"
             >
